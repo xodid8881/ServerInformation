@@ -3,7 +3,8 @@
 PocketMine
 
 ServerInformation / 서버정보 Plugin
- 서버 동접 / 서버 콘텐츠 / 서버 약관 을 보여줍니다.
+
+서버 동접 / 서버 콘텐츠 / 서버 약관 을 보여줍니다.
  
 ![KakaoTalk_20200904_114621284_03](https://user-images.githubusercontent.com/26338400/92193932-73055d00-eea4-11ea-8e41-c679725f96ca.png)
 ![KakaoTalk_20200904_114621284](https://user-images.githubusercontent.com/26338400/92193934-74368a00-eea4-11ea-9f6c-35233ec52a09.png)
