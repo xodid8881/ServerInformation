@@ -1,0 +1,5 @@
+name: ServerInformation
+author: HWABAEG
+main: ServerInformation\ServerInformation
+version: B1
+api: [3.0.0]
