@@ -50,8 +50,7 @@ class ServerInformation extends PluginBase
     [
       "콘텐츠설명" => "§r§7서버 콘텐츠\n서버",
       "서버약관설명" => "§r§7서버 약관안내\n감사합니다."
-      ]
-    );
+    ]);
     $this->messagedb = $this->message->getAll();
     $this->getServer()->getCommandMap()->register('ServerInformation', new EventCommand($this));
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -153,12 +152,14 @@ class ServerInformation extends PluginBase
     $name = $player->getName ();
     $inv = new DoubleChestInventory("§6§l[ §f서버 동접자 §6]");
     $count = (int)$this->pldb ["플레이어"] [$name];
-    if (isset($this->pldb ["플레이어"])) {
-      foreach($this->pldb ["플레이어"] as $name => $v){
-        if ($this->pldb ["플레이어"] [$name] < 52) {
-          $CheckItem = Item::get(397, 3, 1)->setCustomName("{$name}")->setLore([ "§r§7해당 플레이어의 정보를 봅니다.\n인벤토리로 가져가보세요." ]);
-          $inv->setItem( $count , $CheckItem );
-        }
+    $page = (int)$this->pldb [$name] ["Page"];
+    if (isset($this->pldb ["플레이어"] [$page])) {
+      foreach($this->pldb ["플레이어"] [$page] as $count => $v){
+        $name = $this->pldb ["플레이어"] [$page] [$count];
+        $CheckItem = Item::get(397, 3, 1)->setCustomName("{$name}")->setLore([ "§r§7해당 플레이어의 정보를 봅니다.\n인벤토리로 가져가보세요." ]);
+        $inv->setItem( $count , $CheckItem );
+        $inv->setItem( 53 , Item::get(144, 0, 1)->setCustomName("§r§f다음 페이지")->setLore([ "§r§7다음 페이지로 이동합니다.\n인벤토리로 가져가보세요." ]) );
+        $inv->setItem( 45 , Item::get(144, 0, 1)->setCustomName("§r§f이전 페이지")->setLore([ "§r§7이전 페이지로 이동합니다.\n인벤토리로 가져가보세요." ]) );
       }
     }
     $inv->sendContents($inv->getViewers());
@@ -192,6 +193,16 @@ class ServerInformation extends PluginBase
       }
     }, 10);
   }
+  public function playerCounts($name,$count,$page)
+  {
+    $playerCount = count ( $this->getServer ()->getOnlinePlayers () );
+    if ($count <= $playerCount) {
+      if (!isset ($this->pldb ["플레이어"] [$page] [$count])) {
+        $this->pldb ["플레이어"] [$page] [$count] = $name;
+        $this->save ();
+      }
+    }
+  }
   public function onDisable()
   {
     $this->save();
@@ -214,26 +225,16 @@ class PlayerSaveTask extends Task {
     $this->pldb = $this->player->getAll ();
   }
   public function onRun(int $currentTick) {
-    $playerCount = count ( $this->owner->getServer ()->getOnlinePlayers () );
     $count = 0;
-    $number = 1;
+    $page = 1;
     foreach ( $this->owner->getServer ()->getOnlinePlayers () as $player ) {
-      $name = $player->getName ();
-      if ($count < $playerCount) {
-        if (!isset ($this->pldb ["플레이어"] [$name])) {
-          $this->pldb ["플레이어"] [$name] = $number;
-          ++$number;
-          $this->save ();
-        }
-      } else {
-        if (!isset ($this->pldb ["총플레이어수"])) {
-          $this->pldb ["총플레이어수"] = $count+1;
-          $this->save ();
-        } else {
-          $this->pldb ["총플레이어수"] = $count+1;
-          $this->save ();
-        }
+      if ($count >= 44) {
+        $count = 0;
+        $page += 1;
       }
+      $name = $player->getName ();
+      $this->owner->playerCounts ($name,$count,$page);
+      ++$count;
     }
   }
 }
