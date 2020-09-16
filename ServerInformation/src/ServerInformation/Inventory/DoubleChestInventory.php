@@ -48,7 +48,7 @@ class DoubleChestInventory extends InventoryBase{
 		BaseInventory::onOpen($who);
 		$this->handleOpen($who);
 
-		$plugin = Server::getInstance()->getPluginManager()->getPlugin("NPCShop");
+		$plugin = Server::getInstance()->getPluginManager()->getPlugin("ServerInformation");
 
 		$this->vec = $who->floor()->add(0, 5);
 
