@@ -54,7 +54,7 @@ class ServerInformation extends PluginBase
     $this->messagedb = $this->message->getAll();
     $this->getServer()->getCommandMap()->register('ServerInformation', new EventCommand($this));
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-    $this->getScheduler ()->scheduleRepeatingTask ( new PlayerSaveTask ( $this, $this->player ), 20 );
+    $this->getScheduler ()->scheduleRepeatingTask ( new PlayerSaveTask ( $this, $this->player ), 20*10 );
   }
   public function onConTentsUIOpen ($player) {
     $this->getScheduler()->scheduleDelayedTask(new class ($this, $player) extends Task {
