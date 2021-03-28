@@ -31,17 +31,17 @@ class ServerInformation extends PluginBase
   public $db;
   public $get = [];
   private static $instance = null;
-
+  
   public static function getInstance(): ServerInformation
   {
     return static::$instance;
   }
-
+  
   public function onLoad()
   {
     self::$instance = $this;
   }
-
+  
   public function onEnable()
   {
     $this->player = new Config ($this->getDataFolder() . "players.yml", Config::YAML);
@@ -66,7 +66,7 @@ class ServerInformation extends PluginBase
       public function onRun($currentTick) {
         $this->owner->ConTentsUI($this->player);
       }
-    }, 10);
+    }, 20);
   }
   public function ConTentsUI(Player $player)
   {
@@ -96,7 +96,7 @@ class ServerInformation extends PluginBase
       public function onRun($currentTick) {
         $this->owner->ClausesUI($this->player);
       }
-    }, 10);
+    }, 20);
   }
   public function ClausesUI(Player $player)
   {
@@ -127,7 +127,7 @@ class ServerInformation extends PluginBase
       public function onRun($currentTick) {
         $this->owner->PlayerInfo($this->player,$this->players);
       }
-    }, 10);
+    }, 20);
   }
   public function PlayerInfo(Player $player, $players)
   {
@@ -170,7 +170,7 @@ class ServerInformation extends PluginBase
       public function onRun($currentTick) {
         $this->player->addWindow($this->inv);
       }
-    }, 10);
+    }, 20);
   }
   public function onOpen($player) {
     $name = $player->getName ();
@@ -190,7 +190,7 @@ class ServerInformation extends PluginBase
       public function onRun($currentTick) {
         $this->player->addWindow($this->inv);
       }
-    }, 10);
+    }, 20);
   }
   public function playerCounts($name,$count,$page)
   {
