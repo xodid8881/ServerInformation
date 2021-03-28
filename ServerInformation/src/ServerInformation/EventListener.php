@@ -116,7 +116,7 @@ class EventListener implements Listener
                 return true;
               }
             }
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f서버"){
+            if ($inv->getItem ($slot)->getCustomName() == "§r§f서버콘텐츠"){
               $event->setCancelled ();
               $inv->onClose ($player);
               $this->plugin->onConTentsUIOpen ($player);
