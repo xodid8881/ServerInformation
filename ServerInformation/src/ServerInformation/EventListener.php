@@ -19,6 +19,8 @@ use pocketmine\tile\Chest;
 use ServerInformation\Inventory\DoubleChestInventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\event\inventory\InventoryCloseEvent;
+use pocketmine\inventory\ContainerInventory;
+use pocketmine\network\mcpe\protocol\ContainerClosePacket;
 
 class EventListener implements Listener
 {
@@ -43,6 +45,18 @@ class EventListener implements Listener
     if ($inv instanceof DoubleChestInventory) {
       $inv->onClose($player);
       return true;
+    }
+  }
+  public function onPacketReceive (DataPacketReceiveEvent $event) {
+    $packet = $event->getPacket();
+    if(! $packet instanceof ContainerClosePacket)
+    return;
+    $player = $event->getPlayer();
+    $inv = $player->getWindow ($packet->windowId);
+    if ($inv instanceof DoubleChestInventory) {
+      $pk = new ContainerClosePacket();
+      $pk->windowId = $player->getWindowId($inv);
+      $player->sendDataPacket($pk);
     }
   }
   public function onTransaction(InventoryTransactionEvent $event) {
