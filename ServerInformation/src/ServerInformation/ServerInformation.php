@@ -151,7 +151,6 @@ class ServerInformation extends PluginBase
   public function onPlayerOpen($player) {
     $name = $player->getName ();
     $inv = new DoubleChestInventory("§6§l[ §f서버 동접자 §6]");
-    $count = (int)$this->pldb ["플레이어"] [$name];
     $page = (int)$this->pldb [$name] ["Page"];
     if (isset($this->pldb ["플레이어"] [$page])) {
       foreach($this->pldb ["플레이어"] [$page] as $count => $v){
