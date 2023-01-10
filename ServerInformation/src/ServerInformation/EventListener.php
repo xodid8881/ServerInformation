@@ -43,6 +43,35 @@ class EventListener implements Listener
       $this->plugin->save ();
     }
   }
+  
+  public function onPacket(DataPacketReceiveEvent $event)
+  {
+    $packet = $event->getPacket();
+    $player = $event->getOrigin()->getPlayer();
+    if($packet instanceof ModalFormResponsePacket) {
+      $name = $player->getName();
+      $id = $packet->formId;
+      $data = json_decode($packet->formData, true);
+      if ($id === 156321) {
+        if ($data === 0) {
+          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          return true;
+        }
+      }
+      if ($id === 156322) {
+        if ($data === 0) {
+          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          return true;
+        }
+      }
+      if ($id === 156323) {
+        if ($data === 0) {
+          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          return true;
+        }
+      }
+    }
+  }
   public function onTransaction(InventoryTransactionEvent $event) {
     $transaction = $event->getTransaction();
     $player = $transaction->getSource ();
