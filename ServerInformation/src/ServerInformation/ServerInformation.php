@@ -12,7 +12,13 @@ use pocketmine\utils\Config;
 use pocketmine\scheduler\Task;
 use pocketmine\item\Item;
 use ServerInformation\Commands\EventCommand;
-use ServerInformation\Inventory\DoubleChestInventory;
+
+use ServerInformation\InventoryLib\InvLibManager;
+use ServerInformation\InventoryLib\LibInvType;
+use ServerInformation\InventoryLib\InvLibAction;
+use ServerInformation\InventoryLib\SimpleInventory;
+use ServerInformation\InventoryLib\LibInventory;
+
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\block\Block;
 use pocketmine\tile\Chest;
