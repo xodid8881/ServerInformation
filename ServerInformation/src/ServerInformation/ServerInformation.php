@@ -58,6 +58,7 @@ class ServerInformation extends PluginBase
     $this->getServer()->getCommandMap()->register('ServerInformation', new EventCommand($this));
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     $this->getScheduler ()->scheduleRepeatingTask ( new PlayerSaveTask ( $this, $this->player ), 20*10 );
+    InvLibManager::register($this);
   }
   public function onConTentsUIOpen ($player):void
   {
