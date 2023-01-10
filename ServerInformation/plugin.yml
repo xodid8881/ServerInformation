@@ -2,4 +2,4 @@ name: ServerInformation
 author: HWABAEG
 main: ServerInformation\ServerInformation
 version: B1
-api: [3.0.0]
+api: [4.0.0]
