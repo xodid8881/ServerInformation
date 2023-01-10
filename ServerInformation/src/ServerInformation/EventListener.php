@@ -16,11 +16,13 @@ use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
 use pocketmine\tile\Chest;
+
 use ServerInformation\InventoryLib\InvLibManager;
 use ServerInformation\InventoryLib\LibInvType;
 use ServerInformation\InventoryLib\InvLibAction;
 use ServerInformation\InventoryLib\SimpleInventory;
 use ServerInformation\InventoryLib\LibInventory;
+
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\event\inventory\InventoryCloseEvent;
 use pocketmine\inventory\ContainerInventory;
@@ -51,6 +53,9 @@ class EventListener implements Listener
     if($packet instanceof ModalFormResponsePacket) {
       $name = $player->getName();
       $id = $packet->formId;
+      if (is_null($packet->formData)) return;
+      if (!is_array($data)) return;
+      if (is_null($data)) return;
       $data = json_decode($packet->formData, true);
       if ($id === 156321) {
         if ($data === 0) {
@@ -72,6 +77,7 @@ class EventListener implements Listener
       }
     }
   }
+  
   public function onTransaction(InventoryTransactionEvent $event) {
     $transaction = $event->getTransaction();
     $player = $transaction->getSource ();
