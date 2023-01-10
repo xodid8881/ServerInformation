@@ -10,7 +10,6 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\network\mcpe\protocol\OnScreenTextureAnimationPacket;
 use pocketmine\utils\Config;
 use pocketmine\scheduler\Task;
-use pocketmine\item\Item;
 use ServerInformation\Commands\EventCommand;
 
 use ServerInformation\InventoryLib\InvLibManager;
