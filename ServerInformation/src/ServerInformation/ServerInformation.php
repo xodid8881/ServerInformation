@@ -10,7 +10,6 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\network\mcpe\protocol\OnScreenTextureAnimationPacket;
 use pocketmine\utils\Config;
 use pocketmine\scheduler\Task;
-use pocketmine\item\Item;
 use ServerInformation\Commands\EventCommand;
 
 use ServerInformation\InventoryLib\InvLibManager;
@@ -23,13 +22,11 @@ use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\block\Block;
 use pocketmine\tile\Chest;
 // monster
-use pocketmine\level\Position;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\StringTag;
-use pocketmine\nbt\tag\ByteArrayTag;
+
+use pocketmine\world\World;
+use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
+use pocketmine\item\ItemIds;
 
 class ServerInformation extends PluginBase
 {
