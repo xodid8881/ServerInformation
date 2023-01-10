@@ -7,7 +7,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\ModalFormRequestPacket;
 use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -16,7 +16,11 @@ use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
 use pocketmine\tile\Chest;
-use ServerInformation\Inventory\DoubleChestInventory;
+use ServerInformation\InventoryLib\InvLibManager;
+use ServerInformation\InventoryLib\LibInvType;
+use ServerInformation\InventoryLib\InvLibAction;
+use ServerInformation\InventoryLib\SimpleInventory;
+use ServerInformation\InventoryLib\LibInventory;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\event\inventory\InventoryCloseEvent;
 use pocketmine\inventory\ContainerInventory;
@@ -24,9 +28,9 @@ use pocketmine\network\mcpe\protocol\ContainerClosePacket;
 
 class EventListener implements Listener
 {
-
+  
   protected $plugin;
-
+  
   public function __construct(ServerInformation $plugin)
   {
     $this->plugin = $plugin;
@@ -39,26 +43,6 @@ class EventListener implements Listener
       $this->plugin->save ();
     }
   }
-  public function onInvClose(InventoryCloseEvent $event) {
-    $player = $event->getPlayer();
-    $inv = $event->getInventory();
-    if ($inv instanceof DoubleChestInventory) {
-      $inv->onClose($player);
-      return true;
-    }
-  }
-  public function onPacketReceive (DataPacketReceiveEvent $event) {
-    $packet = $event->getPacket();
-    if(! $packet instanceof ContainerClosePacket)
-    return;
-    $player = $event->getPlayer();
-    $inv = $player->getWindow ($packet->windowId);
-    if ($inv instanceof DoubleChestInventory) {
-      $pk = new ContainerClosePacket();
-      $pk->windowId = $player->getWindowId($inv);
-      $player->sendDataPacket($pk);
-    }
-  }
   public function onTransaction(InventoryTransactionEvent $event) {
     $transaction = $event->getTransaction();
     $player = $transaction->getSource ();
@@ -66,13 +50,12 @@ class EventListener implements Listener
     foreach($transaction->getActions() as $action){
       if($action instanceof SlotChangeAction){
         $inv = $action->getInventory();
-        if ($inv instanceof DoubleChestInventory) {
+        if($inv instanceof LibInventory){
           $slot = $action->getSlot ();
           $id = $inv->getItem ($slot)->getId ();
           $damage = $inv->getItem ($slot)->getDamage ();
           if ($id == 144) {
             if ($inv->getItem ($slot)->getCustomName() == "§r§f서버동접"){
-              $event->setCancelled ();
               $inv->onClose ($player);
               $this->plugin->onPlayerOpen ($player);
               return true;
@@ -82,13 +65,11 @@ class EventListener implements Listener
               $this->plugin->save ();
               $page = (int)$this->plugin->pldb [$name] ["Page"];
               if (isset($this->plugin->pldb ["플레이어"] [$page])){
-                $event->setCancelled ();
                 $inv->onClose ($player);
                 $this->plugin->onPlayerOpen ($player);
                 return true;
               } else {
                 $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
-                $event->setCancelled ();
                 $inv->onClose ($player);
                 return true;
               }
@@ -99,38 +80,32 @@ class EventListener implements Listener
               $page = (int)$this->plugin->pldb [$name] ["Page"];
               if ($page >= 1){
                 if (isset($this->plugin->pldb ["플레이어"] [$page])){
-                  $event->setCancelled ();
                   $inv->onClose ($player);
                   $this->plugin->onPlayerOpen ($player);
                   return true;
                 } else {
                   $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
-                  $event->setCancelled ();
                   $inv->onClose ($player);
                   return true;
                 }
               } else {
                 $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
-                $event->setCancelled ();
                 $inv->onClose ($player);
                 return true;
               }
             }
             if ($inv->getItem ($slot)->getCustomName() == "§r§f서버콘텐츠"){
-              $event->setCancelled ();
               $inv->onClose ($player);
               $this->plugin->onConTentsUIOpen ($player);
               return true;
             }
             if ($inv->getItem ($slot)->getCustomName() == "§r§f서버약관"){
-              $event->setCancelled ();
               $inv->onClose ($player);
               $this->plugin->onClausesOpen ($player);
               return true;
             }
           }
           if ($id == 397 && $damage == 3) {
-            $event->setCancelled ();
             $inv->onClose ($player);
             $name = $inv->getItem ($slot)->getCustomName();
             $players = Server::getInstance()->getPlayer ( $name );
