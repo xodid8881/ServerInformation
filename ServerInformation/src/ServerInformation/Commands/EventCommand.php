@@ -6,7 +6,7 @@ namespace ServerInformation\Commands;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\ModalFormRequestPacket;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use ServerInformation\ServerInformation;
 
 class EventCommand extends Command
