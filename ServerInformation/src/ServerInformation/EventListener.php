@@ -53,7 +53,7 @@ class EventListener implements Listener
         if($inv instanceof LibInventory){
           $slot = $action->getSlot ();
           $id = $inv->getItem ($slot)->getId ();
-          $damage = $inv->getItem ($slot)->getDamage ();
+          $damage = $inv->getItem ($slot)->getMeta ();
           if ($id == 144) {
             if ($inv->getItem ($slot)->getCustomName() == "§r§f서버동접"){
               $inv->onClose ($player);
