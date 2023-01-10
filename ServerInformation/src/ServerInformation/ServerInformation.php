@@ -26,6 +26,7 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIds;
 use pocketmine\world\World;
+use pocketmine\world\Position;
 
 class ServerInformation extends PluginBase
 {
@@ -221,7 +222,9 @@ class ServerInformation extends PluginBase
     $this->message->save();
   }
 }
-class PlayerSaveTask extends Task {
+
+class PlayerSaveTask extends Task
+{
   protected $owner;
   protected $player;
   protected $pldb;
