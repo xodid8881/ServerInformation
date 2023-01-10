@@ -147,7 +147,7 @@ class ServerInformation extends PluginBase
       ]
     ];
     $packet = new ModalFormRequestPacket ();
-    $packet->formId = 156322;
+    $packet->formId = 156323;
     $packet->formData = json_encode($encode);
     $player->getNetworkSession()->sendDataPacket($packet);
   }
