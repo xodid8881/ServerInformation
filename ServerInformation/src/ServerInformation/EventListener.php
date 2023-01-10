@@ -108,7 +108,7 @@ class EventListener implements Listener
           if ($id == 397 && $damage == 3) {
             $inv->onClose ($player);
             $name = $inv->getItem ($slot)->getCustomName();
-            $players = Server::getInstance()->getPlayer ( $name );
+            $players = Server::getInstance()->getPlayerByPrefix ( $name );
             $this->plugin->onPlayerInfoOpen ($player, $players);
             return true;
           }
