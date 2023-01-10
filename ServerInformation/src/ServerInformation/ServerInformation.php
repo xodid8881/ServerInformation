@@ -152,6 +152,7 @@ class ServerInformation extends PluginBase
   }
   public function onPlayerOpen($player):void
   {
+    $playerPos = $player->getPosition();
     $name = $player->getName ();
     $inv = InvLibManager::create(LibInvType::DOUBLE_CHEST(), new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§6§l[ §f서버 동접자 §6]');
     $page = (int)$this->pldb [$name] ["Page"];
@@ -179,6 +180,7 @@ class ServerInformation extends PluginBase
   }
   public function onOpen($player):void
   {
+    $playerPos = $player->getPosition();
     $name = $player->getName ();
     $inv = InvLibManager::create(LibInvType::DOUBLE_CHEST(), new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§6§l[ §f서버정보 §6]');
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버동접")->setLore([ "§r§7서버의 동시접속자들을 확인합니다.\n인벤토리로 가져가보세요." ]);
