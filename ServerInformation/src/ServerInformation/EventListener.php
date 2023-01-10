@@ -54,9 +54,9 @@ class EventListener implements Listener
       $name = $player->getName();
       $id = $packet->formId;
       if (is_null($packet->formData)) return;
+      $data = json_decode($packet->formData, true);
       if (!is_array($data)) return;
       if (is_null($data)) return;
-      $data = json_decode($packet->formData, true);
       if ($id === 156321) {
         if ($data === 0) {
           $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
