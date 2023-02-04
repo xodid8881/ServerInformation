@@ -17,11 +17,11 @@ use pocketmine\utils\TextFormat;
 use pocketmine\item\Item;
 use pocketmine\tile\Chest;
 
-use ServerInformation\InventoryLib\InvLibManager;
-use ServerInformation\InventoryLib\LibInvType;
-use ServerInformation\InventoryLib\InvLibAction;
-use ServerInformation\InventoryLib\SimpleInventory;
-use ServerInformation\InventoryLib\LibInventory;
+use LifeInventoryLib\InventoryLib\InvLibManager;
+use LifeInventoryLib\InventoryLib\LibInvType;
+use LifeInventoryLib\InventoryLib\InvLibAction;
+use LifeInventoryLib\InventoryLib\SimpleInventory;
+use LifeInventoryLib\InventoryLib\LibInventory;
 
 use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\event\inventory\InventoryCloseEvent;
@@ -30,9 +30,9 @@ use pocketmine\network\mcpe\protocol\ContainerClosePacket;
 
 class EventListener implements Listener
 {
-  
+
   protected $plugin;
-  
+
   public function __construct(ServerInformation $plugin)
   {
     $this->plugin = $plugin;
@@ -45,7 +45,7 @@ class EventListener implements Listener
       $this->plugin->save ();
     }
   }
-  
+
   public function onPacket(DataPacketReceiveEvent $event)
   {
     $packet = $event->getPacket();
@@ -59,25 +59,25 @@ class EventListener implements Listener
       if (is_null($data)) return;
       if ($id === 156321) {
         if ($data === 0) {
-          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
           return true;
         }
       }
       if ($id === 156322) {
         if ($data === 0) {
-          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
           return true;
         }
       }
       if ($id === 156323) {
         if ($data === 0) {
-          $player->sendMessage( $this->plugin->tag() . '이용을 종료했습니다.');
+          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
           return true;
         }
       }
     }
   }
-  
+
   public function onTransaction(InventoryTransactionEvent $event) {
     $transaction = $event->getTransaction();
     $player = $transaction->getSource ();
@@ -90,6 +90,7 @@ class EventListener implements Listener
           $id = $inv->getItem ($slot)->getId ();
           $damage = $inv->getItem ($slot)->getMeta ();
           if ($id == 144) {
+            $event->cancel ();
             if ($inv->getItem ($slot)->getCustomName() == "§r§f서버동접"){
               $inv->onClose ($player);
               $this->plugin->onPlayerOpen ($player);
@@ -141,11 +142,15 @@ class EventListener implements Listener
             }
           }
           if ($id == 397 && $damage == 3) {
+            $event->cancel ();
             $inv->onClose ($player);
-            $name = $inv->getItem ($slot)->getCustomName();
-            $players = Server::getInstance()->getPlayerByPrefix ( $name );
-            $this->plugin->onPlayerInfoOpen ($player, $players);
-            return true;
+            $pname = $inv->getItem ($slot)->getCustomName();
+            foreach ( $this->plugin->getServer ()->getOnlinePlayers () as $players ) {
+              if ($players->getName () == $pname){
+                $this->plugin->onPlayerInfoOpen ($player, $players);
+                return true;
+              }
+            }
           }
         }
       }
