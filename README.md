@@ -1,6 +1,6 @@
 # ServerInformation
 
-PocketMine
+PocketMine Player Manager Plugin
 
 ServerInformation / 서버정보 Plugin
 
@@ -17,7 +17,7 @@ ServerInformation / 서버정보 Plugin
 
 # ServerInformation
 
-PocketMine
+PocketMine Player Manager Plugin
 
 ServerInformation / Server Information Plugin
 
