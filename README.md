@@ -1,5 +1,9 @@
 # ServerInformation
 
+
+Plugins required to use -
+github.com/xodid8881/InventoryLib
+
 PocketMine Player Manager Plugin
 
 ServerInformation / 서버정보 Plugin
