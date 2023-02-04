@@ -12,11 +12,8 @@ use pocketmine\utils\Config;
 use pocketmine\scheduler\Task;
 use ServerInformation\Commands\EventCommand;
 
-use ServerInformation\InventoryLib\InvLibManager;
-use ServerInformation\InventoryLib\LibInvType;
-use ServerInformation\InventoryLib\InvLibAction;
-use ServerInformation\InventoryLib\SimpleInventory;
-use ServerInformation\InventoryLib\LibInventory;
+use LifeInventoryLib\LifeInventoryLib;
+use LifeInventoryLib\InventoryLib\LibInvType;
 
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\block\Block;
@@ -34,17 +31,18 @@ class ServerInformation extends PluginBase
   public $db;
   public $get = [];
   private static $instance = null;
-  
+  const PREFIX = "§c【 §fServerInformation §c】  §7: ";
+
   public static function getInstance(): ServerInformation
   {
     return static::$instance;
   }
-  
+
   public function onLoad():void
   {
     self::$instance = $this;
   }
-  
+
   public function onEnable():void
   {
     $this->player = new Config ($this->getDataFolder() . "players.yml", Config::YAML);
@@ -58,7 +56,6 @@ class ServerInformation extends PluginBase
     $this->getServer()->getCommandMap()->register('ServerInformation', new EventCommand($this));
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     $this->getScheduler ()->scheduleRepeatingTask ( new PlayerSaveTask ( $this, $this->player ), 20*10 );
-    InvLibManager::register($this);
   }
   public function onConTentsUIOpen ($player):void
   {
@@ -77,11 +74,11 @@ class ServerInformation extends PluginBase
   {
     $encode = [
       'type' => 'form',
-      'title' => '§l§6[ §f서버 콘텐츠 §6]',
+      'title' => '§c【 §f서버컨텐츠 §c】',
       'content' => "{$this->messagedb ["콘텐츠설명"]}",
       'buttons' => [
         [
-          'text' => '§l§6[ §f나가기 §6]'
+          'text' => '§c【 §f나가기 §c】'
         ]
       ]
     ];
@@ -106,11 +103,11 @@ class ServerInformation extends PluginBase
   {
     $encode = [
       'type' => 'form',
-      'title' => '§l§6[ §f서버 약관 §6]',
+      'title' => '§c【 §f서버 약관 §c】',
       'content' => "{$this->messagedb ["서버약관설명"]}",
       'buttons' => [
         [
-          'text' => '§l§6[ §f나가기 §6]'
+          'text' => '§c【 §f나가기 §c】'
         ]
       ]
     ];
@@ -138,11 +135,11 @@ class ServerInformation extends PluginBase
     $playername = $players->getName ();
     $encode = [
       'type' => 'form',
-      'title' => '§l§6[ §f플레이어 정보 §6]',
+      'title' => '§c【 §f정보창 §c】',
       'content' => "§r§7플레이어 정보\n{$playername}",
       'buttons' => [
         [
-          'text' => '§l§6[ §f나가기 §6]'
+          'text' => '§c【 §f나가기 §c】'
         ]
       ]
     ];
@@ -155,7 +152,7 @@ class ServerInformation extends PluginBase
   {
     $playerPos = $player->getPosition();
     $name = $player->getName ();
-    $inv = InvLibManager::create(LibInvType::DOUBLE_CHEST(), new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§6§l[ §f서버 동접자 §6]');
+    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§c【 §f서버 동접자 §c】',$player);
     $page = (int)$this->pldb [$name] ["Page"];
     if (isset($this->pldb ["플레이어"] [$page])) {
       foreach($this->pldb ["플레이어"] [$page] as $count => $v){
@@ -166,47 +163,28 @@ class ServerInformation extends PluginBase
         $inv->setItem( 45 , ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f이전 페이지")->setLore([ "§r§7이전 페이지로 이동합니다.\n인벤토리로 가져가보세요." ]) );
       }
     }
-    $inv->setListener(function(InvLibAction $action):void{
-      $action->setCancelled();
-    });
-    $this->getScheduler()->scheduleDelayedTask(new class ($player, $inv) extends Task {
-      public function __construct($player, $inv) {
-        $this->player = $player;
-        $this->inv = $inv;
-      }
-      public function onRun():void {
-        $this->inv->send($this->player);
-      }
-    }, 20);
+    LifeInventoryLib::getInstance ()->send($inv, $player);
   }
   public function onOpen($player):void
   {
     $playerPos = $player->getPosition();
     $name = $player->getName ();
-    $inv = InvLibManager::create(LibInvType::DOUBLE_CHEST(), new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§6§l[ §f서버정보 §6]');
+    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§c【 §f서버 정보 §c】',$player);
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버동접")->setLore([ "§r§7서버의 동시접속자들을 확인합니다.\n인벤토리로 가져가보세요." ]);
     $inv->setItem( 1 , $CheckItem );
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버콘텐츠")->setLore([ "§r§7서버의 콘텐츠를 확인합니다.\n인벤토리로 가져가보세요." ]);
     $inv->setItem( 4 , $CheckItem );
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버약관")->setLore([ "§r§7서버의 약관을 확인합니다.\n인벤토리로 가져가보세요." ]);
     $inv->setItem( 7 , $CheckItem );
-    $inv->setListener(function(InvLibAction $action):void{
-      $action->setCancelled();
-    });
-    $this->getScheduler()->scheduleDelayedTask(new class ($player, $inv) extends Task {
-      public function __construct($player, $inv) {
-        $this->player = $player;
-        $this->inv = $inv;
-      }
-      public function onRun():void {
-        $this->inv->send($this->player);
-      }
-    }, 20);
+    LifeInventoryLib::getInstance ()->send($inv, $player);
   }
   public function playerCounts($name,$count,$page)
   {
+
     $playerCount = count ( $this->getServer ()->getOnlinePlayers () );
     if ($count <= $playerCount) {
+      $this->pldb ["플레이어"] [$page] = [];
+      $this->save ();
       if (!isset ($this->pldb ["플레이어"] [$page] [$count])) {
         $this->pldb ["플레이어"] [$page] [$count] = $name;
         $this->save ();
