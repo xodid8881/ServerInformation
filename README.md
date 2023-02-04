@@ -2,7 +2,7 @@
 
 
 Plugins required to use -
-github.com/xodid8881/InventoryLib
+(https://github.com/xodid8881/InventoryLib)
 
 PocketMine Player Manager Plugin
 
