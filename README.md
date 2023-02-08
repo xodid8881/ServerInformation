@@ -34,6 +34,39 @@ If you want to show other functions or use them without API support, you need to
 
 You can modify the message in the server content terms and conditions by modifying the conpig.
 
+---
+ServerContentsMessage: |-
+  Server Contents
+  MineFarm Server
+ServerAgreeMessage: |-
+  ServerAgree
+  Thank You
+ServerContentsUi:
+  WarpSlot:
+    ServerWarp:
+      ItemSlot: 1
+      Item: 1
+      type: DOUBLE_CHEST
+  WarpSlotSetting:
+    ServerWarp:
+      WarpList:
+        Spawn:
+          ItemSlot: 1
+          Item: 1
+          Command: spawn
+          Message: Spawn Warp Complete!
+  ContentsSlotSetting:
+    ServerWarp:
+      WarpList:
+        Spawn:
+          ItemSlot: 1
+          Item: 1
+          Command: spawn
+          Message: Spawn Warp Complete!
+...
+
+
+
 ![1](https://user-images.githubusercontent.com/26338400/217585599-753b624a-df1c-414c-abd7-0425d43ee150.png)
 
 ![2](https://user-images.githubusercontent.com/26338400/217585608-d198d5a3-77a1-41b2-b7bd-8e854bbfff7c.png)
