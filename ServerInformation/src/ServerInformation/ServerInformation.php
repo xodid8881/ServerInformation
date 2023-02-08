@@ -260,7 +260,7 @@ class ServerInformation extends PluginBase
     $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), ' server info',$player);
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Player Count")->setLore([ "Check the number of concurrent connections on the server.\nTake it to the inventory. " ]);
     $inv->setItem( 1 , $CheckItem );
-    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Contacts")->setLore([ "Check the contents of the server.\nTake it to the inventory." ] );
+    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Contects")->setLore([ "Check the contents of the server.\nTake it to the inventory." ] );
     $inv->setItem( 4 , $CheckItem );
     $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Agree")->setLore([ "Check the server agreement.\nTake it to your inventory." ] );
     $inv->setItem( 7 , $CheckItem );
