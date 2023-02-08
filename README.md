@@ -35,6 +35,4 @@ If you want to show other functions or use them without API support, you need to
 You can modify the message in the server content terms and conditions by modifying the conpig.
 
 ![Minecraft Screenshot 2020 09 16 - 12 56 53 85](https://user-images.githubusercontent.com/26338400/93290659-2dd61900-f81c-11ea-82fe-9780e59c4f9f.png)
-![KakaoTalk_20200904_114621284](https://user-images.githubusercontent.com/26338400/92193934-74368a00-eea4-11ea-9f6c-35233ec52a09.png)
-![KakaoTalk_20200904_114621284_01](https://user-images.githubusercontent.com/26338400/92193935-74cf2080-eea4-11ea-932d-cdeec6421d93.png)
-![KakaoTalk_20200904_114621284_02](https://user-images.githubusercontent.com/26338400/92193936-74cf2080-eea4-11ea-8e43-f5bc7845c1e5.png)
+
