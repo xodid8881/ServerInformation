@@ -34,7 +34,6 @@ If you want to show other functions or use them without API support, you need to
 
 You can modify the message in the server content terms and conditions by modifying the conpig.
 
-![Minecraft Screenshot 2023 02 09 - 00 55 18 20 (2)](https://user-images.githubusercontent.com/26338400/217583677-6f3bba88-dd70-4a89-9f2c-08b7221c99c4.png)
 
 ![Minecraft Screenshot 2023 02 09 - 00 55 27 36 (2)](https://user-images.githubusercontent.com/26338400/217583681-5daf1b68-0ec4-4b6b-b7b7-e7050d714401.png)
 
@@ -59,3 +58,5 @@ You can modify the message in the server content terms and conditions by modifyi
 ![Minecraft Screenshot 2023 02 09 - 00 55 08 57 (2)](https://user-images.githubusercontent.com/26338400/217583723-19cbfed9-33cc-4a93-a254-a80b39d9ce0f.png)
 
 ![Minecraft Screenshot 2023 02 09 - 00 55 10 46 (2)](https://user-images.githubusercontent.com/26338400/217583671-dffc4d04-e964-45f5-94e6-fbe13e29d753.png)
+
+![Minecraft Screenshot 2023 02 09 - 00 55 18 20 (2)](https://user-images.githubusercontent.com/26338400/217583677-6f3bba88-dd70-4a89-9f2c-08b7221c99c4.png)
