@@ -42,13 +42,17 @@ ServerContentsMessage: |-
 ServerAgreeMessage: |-
   ServerAgree
   Thank You
+  
 ServerContentsUi:
+
   WarpSlot:
     ServerWarp:
       ItemSlot: 1
       Item: 1
       type: DOUBLE_CHEST
+      
   WarpSlotSetting:
+  
     ServerWarp:
       WarpList:
         Spawn:
@@ -56,7 +60,9 @@ ServerContentsUi:
           Item: 1
           Command: spawn
           Message: Spawn Warp Complete!
+          
   ContentsSlotSetting:
+  
     ServerWarp:
       WarpList:
         Spawn:
