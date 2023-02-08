@@ -36,8 +36,6 @@ You can modify the message in the server content terms and conditions by modifyi
 
 ![Minecraft Screenshot 2023 02 09 - 00 54 53 78 (2)](https://user-images.githubusercontent.com/26338400/217584329-1d8b9da0-c191-4c07-83f5-a63b957b98d7.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 54 56 25 (2)](https://user-images.githubusercontent.com/26338400/217584375-4d43569d-2f75-4c52-8e3e-904a3edc6ac4.png)
-
 ![Minecraft Screenshot 2023 02 09 - 00 54 57 75 (2)](https://user-images.githubusercontent.com/26338400/217584403-f368a354-2af1-4b19-a7c7-822256cccf30.png)
 
 ![Minecraft Screenshot 2023 02 09 - 00 55 27 36 (2)](https://user-images.githubusercontent.com/26338400/217584625-a94b855f-5ee4-4174-97b1-6449563bb17b.png)
@@ -46,6 +44,8 @@ You can modify the message in the server content terms and conditions by modifyi
 
 
 ![Minecraft Screenshot 2023 02 09 - 00 54 59 20 (2)](https://user-images.githubusercontent.com/26338400/217584421-f5f3fdbf-28e8-4fa7-8fdb-c0130813e74b.png)
+
+![Minecraft Screenshot 2023 02 09 - 00 54 56 25 (2)](https://user-images.githubusercontent.com/26338400/217584375-4d43569d-2f75-4c52-8e3e-904a3edc6ac4.png)
 
 ![Minecraft Screenshot 2023 02 09 - 00 55 06 63 (3)](https://user-images.githubusercontent.com/26338400/217584463-5ea17aec-e584-495d-8d47-fc3590198187.png)
 
