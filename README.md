@@ -36,16 +36,6 @@ You can modify the message in the server content terms and conditions by modifyi
 
 cofinFile :
 
-  ServerContentsMessage:
-
-  Server Contents
-  MineFarm Server
-  
-  ServerAgreeMessage:
-
-  ServerAgree
-  Thank You
-  
   ServerContentsUi:
 
   WarpSlot:
