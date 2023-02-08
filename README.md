@@ -35,11 +35,14 @@ If you want to show other functions or use them without API support, you need to
 You can modify the message in the server content terms and conditions by modifying the conpig.
 
 cofinFile :
----
-ServerContentsMessage: |-
+
+ServerContentsMessage:
+
   Server Contents
   MineFarm Server
-ServerAgreeMessage: |-
+  
+ServerAgreeMessage:
+
   ServerAgree
   Thank You
   
@@ -70,8 +73,6 @@ ServerContentsUi:
           Item: 1
           Command: spawn
           Message: Spawn Warp Complete!
-...
-
 
 
 
