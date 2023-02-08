@@ -36,33 +36,61 @@ You can modify the message in the server content terms and conditions by modifyi
 
 ---
 ServerContentsMessage: |-
+
   Server Contents
+  
   MineFarm Server
+  
 ServerAgreeMessage: |-
+
   ServerAgree
+  
   Thank You
+  
 ServerContentsUi:
+
   WarpSlot:
+  
     ServerWarp:
+    
       ItemSlot: 1
+      
       Item: 1
+      
       type: DOUBLE_CHEST
+      
   WarpSlotSetting:
+  
     ServerWarp:
+    
       WarpList:
+      
         Spawn:
+        
           ItemSlot: 1
+          
           Item: 1
+          
           Command: spawn
+          
           Message: Spawn Warp Complete!
+          
   ContentsSlotSetting:
+  
     ServerWarp:
+    
       WarpList:
+      
         Spawn:
+        
           ItemSlot: 1
+          
           Item: 1
+          
           Command: spawn
+          
           Message: Spawn Warp Complete!
+          
 ...
 
 
