@@ -34,24 +34,38 @@ If you want to show other functions or use them without API support, you need to
 
 You can modify the message in the server content terms and conditions by modifying the conpig.
 
-![Minecraft Screenshot 2023 02 09 - 00 54 53 78 (2)](https://user-images.githubusercontent.com/26338400/217584329-1d8b9da0-c191-4c07-83f5-a63b957b98d7.png)
+![1](https://user-images.githubusercontent.com/26338400/217585599-753b624a-df1c-414c-abd7-0425d43ee150.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 54 57 75 (2)](https://user-images.githubusercontent.com/26338400/217584403-f368a354-2af1-4b19-a7c7-822256cccf30.png)
+![2](https://user-images.githubusercontent.com/26338400/217585608-d198d5a3-77a1-41b2-b7bd-8e854bbfff7c.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 27 36 (2)](https://user-images.githubusercontent.com/26338400/217584625-a94b855f-5ee4-4174-97b1-6449563bb17b.png)
+![3](https://user-images.githubusercontent.com/26338400/217585619-bd049dc5-62d6-4d94-8eb5-8dca64210f62.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 33 59 (2)](https://user-images.githubusercontent.com/26338400/217584661-044e4324-09c3-4d1f-a735-5a0fcbf7f896.png)
+![4](https://user-images.githubusercontent.com/26338400/217585644-eafd8753-308e-4285-bd49-9e83a4afc264.png)
+
+![5](https://user-images.githubusercontent.com/26338400/217585654-5bfc5c9b-3148-4840-9c40-e3b2778ecb3f.png)
+
+![6](https://user-images.githubusercontent.com/26338400/217585658-3c312d97-6deb-4dfe-ac8a-c1ae14c7fca3.png)
+
+![7](https://user-images.githubusercontent.com/26338400/217585669-a95e8444-ca6b-4e38-99d0-3b92b3b9dea6.png)
+
+![8](https://user-images.githubusercontent.com/26338400/217585678-7b435d84-7f3c-490e-bdd8-664ebcd36b05.png)
+
+![9](https://user-images.githubusercontent.com/26338400/217585685-9e0c3055-bfaf-427f-be87-1dc1eb27fcb2.png)
+
+![10](https://user-images.githubusercontent.com/26338400/217585696-3586baea-b45b-46d1-8045-722ef776e823.png)
+
+![11](https://user-images.githubusercontent.com/26338400/217585707-0173b119-676d-4472-a438-6fa92d160525.png)
+
+![12](https://user-images.githubusercontent.com/26338400/217585713-450af4f3-bf2b-438b-9133-0769f491889b.png)
+
+![13](https://user-images.githubusercontent.com/26338400/217585721-b8ae31c4-543d-4aa7-8e95-ad77d301b1fa.png)
 
 
-![Minecraft Screenshot 2023 02 09 - 00 54 59 20 (2)](https://user-images.githubusercontent.com/26338400/217584421-f5f3fdbf-28e8-4fa7-8fdb-c0130813e74b.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 54 56 25 (2)](https://user-images.githubusercontent.com/26338400/217584375-4d43569d-2f75-4c52-8e3e-904a3edc6ac4.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 06 63 (3)](https://user-images.githubusercontent.com/26338400/217584463-5ea17aec-e584-495d-8d47-fc3590198187.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 18 20 (2)](https://user-images.githubusercontent.com/26338400/217584553-45e94a4d-d5f9-4182-a352-25891b635f9c.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 08 57 (2)](https://user-images.githubusercontent.com/26338400/217584483-17b85141-0716-4ba9-8af3-14ed58da31f3.png)
 
-![Minecraft Screenshot 2023 02 09 - 00 55 10 46 (2)](https://user-images.githubusercontent.com/26338400/217584514-32edb5ee-d678-4f67-be82-9eeebd7ea9b0.png)
+
+
 
