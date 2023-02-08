@@ -32,7 +32,7 @@ class EventListener implements Listener
 {
 
   protected $plugin;
-
+  private $warpname;
   public function __construct(ServerInformation $plugin)
   {
     $this->plugin = $plugin;
@@ -53,25 +53,33 @@ class EventListener implements Listener
     if($packet instanceof ModalFormResponsePacket) {
       $name = $player->getName();
       $id = $packet->formId;
-      if (is_null($packet->formData)) return;
+      if($packet->formData == null) {
+        return true;
+      }
       $data = json_decode($packet->formData, true);
-      if (!is_array($data)) return;
-      if (is_null($data)) return;
       if ($id === 156321) {
         if ($data === 0) {
-          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
+          $this->plugin->onOpenWarpSettingLists ($player);
+          return true;
+        }
+        if ($data === 1) {
+          $player->sendMessage( ServerInformation::PREFIX . 'Use has ended.');
+          return true;
+        }
+        if ($data === 2) {
+          $player->sendMessage( ServerInformation::PREFIX . 'Use has ended.');
           return true;
         }
       }
       if ($id === 156322) {
         if ($data === 0) {
-          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
+          $player->sendMessage( ServerInformation::PREFIX . 'Use has ended.');
           return true;
         }
       }
       if ($id === 156323) {
         if ($data === 0) {
-          $player->sendMessage( ServerInformation::PREFIX . '이용을 종료했습니다.');
+          $player->sendMessage( ServerInformation::PREFIX . 'Use has ended.');
           return true;
         }
       }
@@ -89,53 +97,75 @@ class EventListener implements Listener
           $slot = $action->getSlot ();
           $id = $inv->getItem ($slot)->getId ();
           $damage = $inv->getItem ($slot)->getMeta ();
+          if ($inv->getTitle() == "WarpConTents"){
+            $itemname = $inv->getItem ($slot)->getCustomName();
+            if ($this->plugin->messagedb ["ServerContentsUi"] ["WarpSlot"] [$itemname]){
+              $type = $this->plugin->messagedb ["ServerContentsUi"] ["WarpSlot"] [$itemname] ["type"];
+              $this->warpname [$name] = $itemname;
+              $event->cancel ();
+              $inv->onClose ($player);
+              $this->plugin->onOpenWarpLists ($player,$type);
+            }
+          }
+          if ($inv->getTitle() == "Warps"){
+            $itemname = $inv->getItem ($slot)->getCustomName();
+            $warpslotname = $this->warpname [$name];
+            if ($this->plugin->messagedb ["ServerContentsUi"] ["ContentsSlotSetting"] [$warpslotname]){
+              $WarpCommand = $this->plugin->messagedb ["ServerContentsUi"] ["ContentsSlotSetting"] [$warpslotname] ["WarpList"] [$itemname] ["Command"];
+              $WarpMessage = $this->plugin->messagedb ["ServerContentsUi"] ["ContentsSlotSetting"] [$warpslotname] ["WarpList"] [$itemname] ["Message"];
+              $player->sendMessage ("$WarpMessage");
+              $event->cancel ();
+              $inv->onClose ($player);
+              $this->plugin->getServer ()->getCommandMap ()->dispatch ( $player, $WarpCommand );
+            }
+          }
           if ($id == 144) {
             $event->cancel ();
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f서버동접"){
+            if ($inv->getItem ($slot)->getCustomName() == "Server Player Count"){
               $inv->onClose ($player);
               $this->plugin->onPlayerOpen ($player);
               return true;
             }
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f다음 페이지"){
+            if ($inv->getItem ($slot)->getCustomName() == "Next Page"){
               $this->plugin->pldb [$name] ["Page"] += 1;
               $this->plugin->save ();
               $page = (int)$this->plugin->pldb [$name] ["Page"];
-              if (isset($this->plugin->pldb ["플레이어"] [$page])){
+              if (isset($this->plugin->pldb ["player"] [$page])){
                 $inv->onClose ($player);
                 $this->plugin->onPlayerOpen ($player);
                 return true;
               } else {
-                $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
+                $player->sendMessage ("The page before [Server Information] does not exist.");
                 $inv->onClose ($player);
                 return true;
               }
             }
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f이전 페이지"){
+            if ($inv->getItem ($slot)->getCustomName() == "Back page"){
               $this->plugin->pldb [$name] ["Page"] -= 1;
-              $this->plugin->save ();
+              $this->plugin->save();
               $page = (int)$this->plugin->pldb [$name] ["Page"];
               if ($page >= 1){
-                if (isset($this->plugin->pldb ["플레이어"] [$page])){
+                if (isset($this->plugin->pldb ["player"] [$page])){
                   $inv->onClose ($player);
                   $this->plugin->onPlayerOpen ($player);
                   return true;
                 } else {
-                  $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
+                  $player->sendMessage ("The page before [Server Information] does not exist.");
                   $inv->onClose ($player);
                   return true;
                 }
               } else {
-                $player->sendMessage ("[ 서버정보 ] 이전 페이지는 존재하지 않습니다.");
+                $player->sendMessage ("The page before [Server Information] does not exist.");
                 $inv->onClose ($player);
                 return true;
               }
             }
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f서버콘텐츠"){
+            if ($inv->getItem ($slot)->getCustomName() == "Server Contects"){
               $inv->onClose ($player);
               $this->plugin->onConTentsUIOpen ($player);
               return true;
             }
-            if ($inv->getItem ($slot)->getCustomName() == "§r§f서버약관"){
+            if ($inv->getItem ($slot)->getCustomName() == "Server Agree"){
               $inv->onClose ($player);
               $this->plugin->onClausesOpen ($player);
               return true;
