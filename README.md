@@ -36,17 +36,17 @@ You can modify the message in the server content terms and conditions by modifyi
 
 cofinFile :
 
-ServerContentsMessage:
+  ServerContentsMessage:
 
   Server Contents
   MineFarm Server
   
-ServerAgreeMessage:
+  ServerAgreeMessage:
 
   ServerAgree
   Thank You
   
-ServerContentsUi:
+  ServerContentsUi:
 
   WarpSlot:
   
@@ -54,17 +54,7 @@ ServerContentsUi:
       ItemSlot: 1
       Item: 1
       type: DOUBLE_CHEST
-      
-  WarpSlotSetting:
-  
-    ServerWarp:
-      WarpList:
-        Spawn:
-          ItemSlot: 1
-          Item: 1
-          Command: spawn
-          Message: Spawn Warp Complete!
-          
+     
   ContentsSlotSetting:
   
     ServerWarp:
