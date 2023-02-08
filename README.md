@@ -49,6 +49,7 @@ ServerAgreeMessage:
 ServerContentsUi:
 
   WarpSlot:
+  
     ServerWarp:
       ItemSlot: 1
       Item: 1
