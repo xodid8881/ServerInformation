@@ -21,8 +21,6 @@ use pocketmine\tile\Chest;
 // monster
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
-use pocketmine\item\ItemIds;
-use pocketmine\world\World;
 use pocketmine\world\Position;
 
 class ServerInformation extends PluginBase
@@ -49,14 +47,98 @@ class ServerInformation extends PluginBase
     $this->pldb = $this->player->getAll();
     $this->message = new Config ($this->getDataFolder() . "messages.yml", Config::YAML,
     [
-      "콘텐츠설명" => "§r§7서버 콘텐츠\n서버",
-      "서버약관설명" => "§r§7서버 약관안내\n감사합니다."
+      "ServerContentsMessage" => "§r§7Server Contents\nMineFarm Server",
+      "ServerAgreeMessage" => "§r§7ServerAgree\nThank You",
+      "ServerContentsUi" => [
+        "WarpSlot" => [
+          "ServerWarp" => [
+            "ItemSlot" => 1,
+            "Item" => 1,
+            "type" => "DOUBLE_CHEST"
+            // DOUBLE_CHEST, CHEST
+          ]
+        ],
+        "ContentsSlotSetting" => [
+          "ServerWarp" => [
+            "WarpList" => [
+              "Spawn" => [
+                "ItemSlot" => 1,
+                "Item" => 1,
+                "Command" => "spawn",
+                "Message" => "Spawn Warp Complete!"
+              ]
+            ]
+          ]
+        ]
+      ]
     ]);
     $this->messagedb = $this->message->getAll();
     $this->getServer()->getCommandMap()->register('ServerInformation', new EventCommand($this));
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     $this->getScheduler ()->scheduleRepeatingTask ( new PlayerSaveTask ( $this, $this->player ), 20*10 );
   }
+
+  public function getWarpSettingLists(): array
+  {
+    $arr = [];
+    foreach($this->messagedb ["ServerContentsUi"] ["WarpSlot"] as $Warp => $v) {
+      $arr[] = $Warp;
+    }
+    return $arr;
+  }
+
+  public function onOpenWarpSettingLists($player):void
+  {
+    $playerPos = $player->getPosition();
+    $name = $player->getName ();
+    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), 'WarpConTents',$player);
+
+    foreach($this->getWarpSettingLists() as $Warp){
+      $SlotCode = $this->messagedb ["ServerContentsUi"] ["WarpSlot"] [$Warp] ["ItemSlot"];
+      $ItemCode = $this->messagedb ["ServerContentsUi"] ["WarpSlot"] [$Warp] ["Item"];
+      $CheckItem = ItemFactory::getInstance()->get($ItemCode, 0, 1)->setCustomName($Warp)->setLore([ $Warp . " List Open" ]);
+      $inv->setItem( $SlotCode , $CheckItem );
+    }
+
+    LifeInventoryLib::getInstance ()->send($inv, $player);
+  }
+
+  public function getWarpLists(): array
+  {
+    $arr = [];
+    foreach($this->messagedb ["ServerContentsUi"] ["WarpSlotSetting"] as $Warp => $v) {
+      $arr[] = $Warp;
+    }
+    return $arr;
+  }
+
+  public function getCommandWarpLists($data): array
+  {
+    $arr = [];
+    foreach($this->messagedb ["ServerContentsUi"] ["WarpSlotSetting"] [$data] ["WarpList"] as $Warp => $v) {
+      $arr[] = $Warp;
+    }
+    return $arr;
+  }
+
+  public function onOpenWarpLists($player,$type):void
+  {
+    $playerPos = $player->getPosition();
+    $name = $player->getName ();
+    $inv = LifeInventoryLib::getInstance ()->create($type, new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), 'Warps',$player);
+
+    foreach($this->getWarpLists() as $Warp){
+      foreach($this->getCommandWarpLists($Warp) as $WarpName){
+        $SlotCode = $this->messagedb ["ServerContentsUi"] ["ContentsSlotSetting"] [$Warp] ["WarpList"] [$WarpName] ["ItemSlot"];
+        $ItemCode = $this->messagedb ["ServerContentsUi"] ["ContentsSlotSetting"] [$Warp] ["WarpList"] [$WarpName] ["Item"];
+        $CheckItem = ItemFactory::getInstance()->get($ItemCode, 0, 1)->setCustomName($WarpName)->setLore([ $Warp . " Warp Event" ]);
+        $inv->setItem( $SlotCode , $CheckItem );
+      }
+    }
+
+    LifeInventoryLib::getInstance ()->send($inv, $player);
+  }
+
   public function onConTentsUIOpen ($player):void
   {
     $this->getScheduler()->scheduleDelayedTask(new class ($this, $player) extends Task {
@@ -74,11 +156,17 @@ class ServerInformation extends PluginBase
   {
     $encode = [
       'type' => 'form',
-      'title' => '§c【 §f서버컨텐츠 §c】',
-      'content' => "{$this->messagedb ["콘텐츠설명"]}",
+      'title' => 'Server Contents',
+      'content' => "{$this->messagedb ["ServerContentsMessage"]}",
       'buttons' => [
         [
-          'text' => '§c【 §f나가기 §c】'
+          'text' => 'warp list'
+        ],
+        [
+          'text' => 'command set'
+        ],
+        [
+          'text' => 'Exit'
         ]
       ]
     ];
@@ -103,11 +191,11 @@ class ServerInformation extends PluginBase
   {
     $encode = [
       'type' => 'form',
-      'title' => '§c【 §f서버 약관 §c】',
-      'content' => "{$this->messagedb ["서버약관설명"]}",
+      'title' => 'Server Terms',
+      'content' => "{$this->messagedb ["ServerAgreeMessage"]}",
       'buttons' => [
         [
-          'text' => '§c【 §f나가기 §c】'
+          'text' => 'Exit'
         ]
       ]
     ];
@@ -135,11 +223,11 @@ class ServerInformation extends PluginBase
     $playername = $players->getName ();
     $encode = [
       'type' => 'form',
-      'title' => '§c【 §f정보창 §c】',
-      'content' => "§r§7플레이어 정보\n{$playername}",
+      'title' => 'Information window',
+      'content' => "Player info\n{$playername}",
       'buttons' => [
         [
-          'text' => '§c【 §f나가기 §c】'
+          'text' => 'Exit'
         ]
       ]
     ];
@@ -152,15 +240,15 @@ class ServerInformation extends PluginBase
   {
     $playerPos = $player->getPosition();
     $name = $player->getName ();
-    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§c【 §f서버 동접자 §c】',$player);
+    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), ' server concurrent',$player);
     $page = (int)$this->pldb [$name] ["Page"];
-    if (isset($this->pldb ["플레이어"] [$page])) {
-      foreach($this->pldb ["플레이어"] [$page] as $count => $v){
-        $name = $this->pldb ["플레이어"] [$page] [$count];
-        $CheckItem = ItemFactory::getInstance()->get(397, 3, 1)->setCustomName("{$name}")->setLore([ "§r§7해당 플레이어의 정보를 봅니다.\n인벤토리로 가져가보세요." ]);
+    if (isset($this->pldb ["player"] [$page])) {
+      foreach($this->pldb ["player"] [$page] as $count => $v){
+        $name = $this->pldb ["player"] [$page] [$count];
+        $CheckItem = ItemFactory::getInstance()->get(397, 3, 1)->setCustomName("{$name}")->setLore([ "View that player's information.\nTake it to your inventory. " ]);
         $inv->setItem( $count , $CheckItem );
-        $inv->setItem( 53 , ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f다음 페이지")->setLore([ "§r§7다음 페이지로 이동합니다.\n인벤토리로 가져가보세요." ]) );
-        $inv->setItem( 45 , ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f이전 페이지")->setLore([ "§r§7이전 페이지로 이동합니다.\n인벤토리로 가져가보세요." ]) );
+        $inv->setItem( 53 , ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Next Page")->setLore([ "Go to next page.\nImported to inventory Go." ]) );
+        $inv->setItem( 45 , ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Back page")->setLore([ "Go to previous page.\nImported to inventory Go." ]) );
       }
     }
     LifeInventoryLib::getInstance ()->send($inv, $player);
@@ -169,27 +257,20 @@ class ServerInformation extends PluginBase
   {
     $playerPos = $player->getPosition();
     $name = $player->getName ();
-    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), '§c【 §f서버 정보 §c】',$player);
-    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버동접")->setLore([ "§r§7서버의 동시접속자들을 확인합니다.\n인벤토리로 가져가보세요." ]);
+    $inv = LifeInventoryLib::getInstance ()->create("DOUBLE_CHEST", new Position($playerPos->x, $playerPos->y - 2, $playerPos->z, $playerPos->getWorld()), ' server info',$player);
+    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Player Count")->setLore([ "Check the number of concurrent connections on the server.\nTake it to the inventory. " ]);
     $inv->setItem( 1 , $CheckItem );
-    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버콘텐츠")->setLore([ "§r§7서버의 콘텐츠를 확인합니다.\n인벤토리로 가져가보세요." ]);
+    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Contacts")->setLore([ "Check the contents of the server.\nTake it to the inventory." ] );
     $inv->setItem( 4 , $CheckItem );
-    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("§r§f서버약관")->setLore([ "§r§7서버의 약관을 확인합니다.\n인벤토리로 가져가보세요." ]);
+    $CheckItem = ItemFactory::getInstance()->get(144, 0, 1)->setCustomName("Server Agree")->setLore([ "Check the server agreement.\nTake it to your inventory." ] );
     $inv->setItem( 7 , $CheckItem );
     LifeInventoryLib::getInstance ()->send($inv, $player);
   }
   public function playerCounts($name,$count,$page)
   {
-
-    $playerCount = count ( $this->getServer ()->getOnlinePlayers () );
-    if ($count <= $playerCount) {
-      $this->pldb ["플레이어"] [$page] = [];
-      $this->save ();
-      if (!isset ($this->pldb ["플레이어"] [$page] [$count])) {
-        $this->pldb ["플레이어"] [$page] [$count] = $name;
-        $this->save ();
-      }
-    }
+    $this->pldb ["player"] [$page] = [];
+    $this->pldb ["player"] [$page] [$count] = $name;
+    $this->save ();
   }
   public function onDisable():void
   {
@@ -199,7 +280,7 @@ class ServerInformation extends PluginBase
   {
     $this->player->setAll($this->pldb);
     $this->player->save();
-    $this->message->setAll($this->pldb);
+    $this->message->setAll($this->messagedb);
     $this->message->save();
   }
 }
@@ -217,6 +298,8 @@ class PlayerSaveTask extends Task
   public function onRun():void {
     $count = 0;
     $page = 1;
+    unset($this->owner->pldb ["player"]);
+    $this->owner->save ();
     foreach ( $this->owner->getServer ()->getOnlinePlayers () as $player ) {
       if ($count >= 44) {
         $count = 0;
