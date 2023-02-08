@@ -36,7 +36,7 @@ You can modify the message in the server content terms and conditions by modifyi
 
 cofinFile :
 
-  - ServerContentsUi
+  - ServerContentsUi => Date
 
   WarpSlot:
   
